@@ -18,14 +18,22 @@ void setup() {
 void loop() {
   // oscslip_pd
   int maLectureBouton = digitalRead( MA_BROCHE_BOUTON );
-  monOsc.sendInt("/bouton", maLectureBouton);
+  monOsc.sendInt("/pot", maLectureBouton);
 
   // oscslip_angle
   int maLectureAnalogique = analogRead(MA_BROCHE_ANGLE);
-  monOsc.sendInt("/angle", maLectureAnalogique);
-  delay(100);
+  monOsc.sendInt("/but", maLectureAnalogique);
+  delay(50);
 
   // couleur_pixel
-  monPixel = CRGB(0, millis() % 25, 0);
-  FastLED.show();
+  if (maLectureAnalogique >= 2047)
+  {
+    monPixel = CRGB(0, 0, 255);
+    FastLED.show();
+  } else if (maLectureAnalogique < 2047) {
+    monPixel = CRGB(255, 255, 0);
+    FastLED.show();
+  }
+
+
 }
